@@ -51,13 +51,13 @@ then
     curl -L --silent https://my.datomic.com/downloads/free/${DATOMIC_VERSION} > datomic.zip
     jar xf datomic.zip
     mv datomic-free-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
-    echo "----->  Installation done"
+    echo "-----> Installation done"
 else
     echo "-----> Installing the Pro version of Datomic ${DATOMIC_VERSION}"
     curl -L --silent -u ${DATOMIC_LICENSE_USER}:${DATOMIC_LICENSE_PASS} https://my.datomic.com/repo/com/datomic/datomic-pro/${DATOMIC_VERSION}/datomic-pro-${DATOMIC_VERSION}.zip > datomic.zip
     jar xf datomic.zip
     mv datomic-pro-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
-    echo "----->  Installation done"
+    echo "-----> Installation done"
 fi
 
 chmod -R +x ${BUILD_DIR}/datomic
