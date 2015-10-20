@@ -32,38 +32,41 @@ mkdir -p $CACHE_DIR
 
 # change to cache dir to install maven
 cd $CACHE_DIR
-install_maven ${CACHE_DIR} ${BUILD_DIR}
 
-if [ -n "$MAVEN_SETTINGS_PATH" ]; then
-  MAVEN_SETTINGS_OPT="-s $MAVEN_SETTINGS_PATH"
-elif [ -n "$MAVEN_SETTINGS_URL" ]; then
-  status_pending "Installing settings.xml"
-  mkdir -p .m2
-  curl --silent --max-time 10 --location $MAVEN_SETTINGS_URL --output .m2/settings.xml
-  status_done
-  MAVEN_SETTINGS_OPT="-s $CACHE_DIR/.m2/settings.xml"
-elif [ -f $BUILD_DIR/settings.xml ]; then
-  MAVEN_SETTINGS_OPT="-s $BUILD_DIR/settings.xml"
+if [ -z "${DATOMIC_VERSION}" ]
+then
+    DATOMIC_VERSION=0.9.5327 # Use a recent version by default
+fi
+
+DATOMIC_FREE_VERSION=true
+
+if [ -n "${DATOMIC_LICENSE_USER}" ] && [ -n "${DATOMIC_LICENSE_PASS}" ]
+then
+    DATOMIC_FREE_VERSION=false
+fi
+
+if [ ${DATOMIC_FREE_VERSION} == "true" ]
+then
+    echo "-----> Installing the Free version of Datomic ${DATOMIC_VERSION}"
+    curl -L --silent https://my.datomic.com/downloads/free/${DATOMIC_VERSION} > datomic.zip
+    jar xf datomic.zip
+    mv datomic-free-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
+    echo "----->  Installation done"
 else
-  unset MAVEN_SETTINGS_OPT
+    echo "-----> Installing the Pro version of Datomic ${DATOMIC_VERSION}"
+    curl -L --silent -u ${DATOMIC_LICENSE_USER}:${DATOMIC_LICENSE_PASS} https://my.datomic.com/repo/com/datomic/datomic-pro/${DATOMIC_VERSION}/datomic-pro-${DATOMIC_VERSION}.zip > datomic.zip
+    jar xf datomic.zip
+    mv datomic-pro-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
+    echo "----->  Installation done"
 fi
 
-# change to build dir to run maven
-cd $BUILD_DIR
+cp -R ${ROOT_DIR}/scripts/* ${BUILD_DIR}
 
-export MAVEN_OPTS="-Xmx1024m ${MAVEN_JAVA_OPTS} -Duser.home=$BUILD_DIR -Dmaven.repo.local=$CACHE_DIR/.m2/repository"
+chmod -R +x ${BUILD_DIR}
 
-# build app
-mvnOpts="-B"
-mvnOpts="${mvnOpts}${MAVEN_SETTINGS_OPT:+ $MAVEN_SETTINGS_OPT}"
-mvnOpts="${mvnOpts} ${MAVEN_CUSTOM_OPTS:-"-DskipTests"}"
-mvnOpts="${mvnOpts} ${MAVEN_CUSTOM_GOALS:-"clean dependency:list install"}"
+PROFILE_PATH="$BUILD_DIR/.profile.d/java.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="/app/.jdk/bin:$PATH"' >> $PROFILE_PATH
+echo 'export PATH="/app/datomic/bin:$PATH"' >> $PROFILE_PATH
+echo 'export JAVA_TOOL_OPTIONS="$JAVA_TOOL_OPTIONS -Djava.rmi.server.useCodebaseOnly=true"' >> $PROFILE_PATH
 
-status "Executing: mvn ${mvnOpts}"
-$CACHE_DIR/.maven/bin/mvn -DoutputFile=target/mvn-dependency-list.log ${mvnOpts} | indent
-
-if [ "${PIPESTATUS[*]}" != "0 0" ]; then
-  error "Failed to build app with Maven
-We're sorry this build is failing! If you can't find the issue in application code,
-please submit a ticket so we can help: https://help.heroku.com/"
-fi
