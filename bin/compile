@@ -62,7 +62,7 @@ else
     echo "----->  Installation done"
 fi
 
-cp -R ${ROOT_DIR}/scripts/* ${BUILD_DIR}
+cp -R ${BP_DIR}/scripts/* ${BUILD_DIR}
 
 chmod -R +x ${BUILD_DIR}
 
