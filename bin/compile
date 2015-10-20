@@ -4,8 +4,6 @@
 # fail fast
 set -e
 
-set -x
-
 BP_DIR=$(cd $(dirname $0)/..; pwd) # absolute path
 . $BP_DIR/lib/common.sh
 
@@ -64,9 +62,7 @@ fi
 
 ls ${BUILD_DIR}/datomic
 
-#cp -R ${BUILD_DIR}/datomic/scripts/* ${BUILD_DIR}
-
-chmod -R +x ${BUILD_DIR}
+chmod -R +x ${BUILD_DIR}/datomic
 
 PROFILE_PATH="${BUILD_DIR}/.profile.d/java.sh"
 mkdir -p $(dirname ${PROFILE_PATH})
