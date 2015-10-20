@@ -60,8 +60,6 @@ else
     echo "----->  Installation done"
 fi
 
-ls ${BUILD_DIR}/datomic
-
 chmod -R +x ${BUILD_DIR}/datomic
 
 PROFILE_PATH="${BUILD_DIR}/.profile.d/java.sh"
