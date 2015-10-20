@@ -62,6 +62,8 @@ else
     echo "----->  Installation done"
 fi
 
+tree ${BUILD_DIR}/datomic
+
 cp -R ${BUILD_DIR}/datomic/scripts/* ${BUILD_DIR}
 
 chmod -R +x ${BUILD_DIR}
