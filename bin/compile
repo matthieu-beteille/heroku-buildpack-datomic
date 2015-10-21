@@ -12,9 +12,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
-WHITE_LIST='^(JDBC_DATABASE_URL|JDBC_DATABASE_USERNAME|JDBC_DATABASE_PASSWORD)$'
-
-export_env_dir $ENV_DIR ${WHITE_LIST}
+export_env_dir $ENV_DIR
 
 JVM_COMMON_BUILDPACK=${JVM_COMMON_BUILDPACK:-https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz}
 mkdir -p /tmp/jvm-common
@@ -61,9 +59,9 @@ else
     SAMPLE_PROPERTIES_FILE=${BUILD_DIR}/datomic/config/samples/${STORAGE_SERVICE}-template.properties
     OUTPUT_PROPERTIES_FILE=${BUILD_DIR}/transactor.properties
 
-    SQL_URL=`echo $JDBC_DATABASE_URL | sed 's:?user=.*::'`
-    SQL_USER=${JDBC_DATABASE_USERNAME}
-    SQL_PASSWORD=${JDBC_DATABASE_PASSWORD}
+    SQL_URL=`echo $DATABASE_URL | sed 's?.*@\(.*\)?jdbc:postgres://\1?'`
+    SQL_USER=`echo $DATABASE_URL | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?\(.*\):.*?\1?'`
+    SQL_PASSWORD=`echo $DATABASE_URL | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?.*:\(.*\)@.*?\1?'`
 
     sed     -e "s:^license-key=:license-key=${DATOMIC_TRANSACTOR_KEY}:" \
             -e "s:^sql-url=:sql-url=${SQL_URL}:"                        \
