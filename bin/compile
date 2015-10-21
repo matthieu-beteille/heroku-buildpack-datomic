@@ -52,6 +52,23 @@ else
     curl -L --silent -u ${DATOMIC_LICENSE_USER}:${DATOMIC_LICENSE_PASSWORD} https://my.datomic.com/repo/com/datomic/datomic-pro/${DATOMIC_VERSION}/datomic-pro-${DATOMIC_VERSION}.zip > datomic.zip
     jar xf datomic.zip
     mv datomic-pro-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
+
+    #TODO - read env to support other STORAGE services? Or make another build-pack??
+    STORAGE_SERVICE=sql-transactor
+
+    SAMPLE_PROPERTIES_FILE=${BUILD_DIR}/datomic/config/samples/${STORAGE_SERVICE}-template.properties
+    OUTPUT_PROPERTIES_FILE=${BUILD_DIR}/transactor.properties
+
+    SQL_URL=`echo $JDBC_DATABASE_URL | sed 's:?user=.*::'`
+    SQL_USER=${JDBC_DATABASE_USERNAME}
+    SQL_PASSWORD=${JDBC_DATABASE_PASSWORD}
+
+    sed     -e "s:^license-key=:license-key=${DATOMIC_TRANSACTOR_KEY}:" \
+            -e "s:^sql-url=:sql-url=${SQL_URL}:"                        \
+            -e "s:^sql-user=:sql-user=${SQL_USER}:"                     \
+            -e "s:^sql-password=:sql-password=${SQL_PASSWORD}:"         \
+    ${SAMPLE_PROPERTIES_FILE} > ${OUTPUT_PROPERTIES_FILE}
+
     echo "-----> Datomic Installation complete"
 fi
 
