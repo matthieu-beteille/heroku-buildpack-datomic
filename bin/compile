@@ -12,23 +12,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
-echo "ENV_DIR $ENV_DIR"
-
-echo "env 1"
-env
-
-echo "ls $ENV_DIR"
-ls $ENV_DIR
-
-echo "set env"
-
 export_env_dir $ENV_DIR
-
-echo "env 2"
-env
-
-echo "ls $ENV_DIR"
-ls $ENV_DIR
 
 JVM_COMMON_BUILDPACK=${JVM_COMMON_BUILDPACK:-https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz}
 mkdir -p /tmp/jvm-common
@@ -46,17 +30,17 @@ status_done
 #create the cache dir if it doesn't exist
 mkdir -p $CACHE_DIR
 
-# change to cache dir to install maven
+# change to cache dir to install Datomic
 cd $CACHE_DIR
 
 if [ -z "${DATOMIC_VERSION}" ]
 then
-    DATOMIC_VERSION=0.9.5327 # Use a recent version by default
+    DATOMIC_VERSION=0.9.5302 # Use a recent version by default
 fi
 
 DATOMIC_FREE_VERSION=true
 
-if [ -n "${DATOMIC_LICENSE_USER}" ] && [ -n "${DATOMIC_LICENSE_PASS}" ]
+if [ -n "${DATOMIC_TRANSACTOR_KEY}" ]
 then
     DATOMIC_FREE_VERSION=false
 fi
@@ -67,13 +51,13 @@ then
     curl -L --silent https://my.datomic.com/downloads/free/${DATOMIC_VERSION} > datomic.zip
     jar xf datomic.zip
     mv datomic-free-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
-    echo "-----> Installation done"
+    echo "-----> Datomic Installation complete"
 else
     echo "-----> Installing the Pro version of Datomic ${DATOMIC_VERSION}"
     curl -L --silent -u ${DATOMIC_LICENSE_USER}:${DATOMIC_LICENSE_PASS} https://my.datomic.com/repo/com/datomic/datomic-pro/${DATOMIC_VERSION}/datomic-pro-${DATOMIC_VERSION}.zip > datomic.zip
     jar xf datomic.zip
     mv datomic-pro-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
-    echo "-----> Installation done"
+    echo "-----> Datomic Installation complete"
 fi
 
 chmod -R +x ${BUILD_DIR}/datomic
