@@ -58,14 +58,15 @@ else
     SAMPLE_PROPERTIES_FILE=${BUILD_DIR}/datomic/config/samples/${STORAGE_SERVICE}-template.properties
     OUTPUT_PROPERTIES_FILE=${BUILD_DIR}/transactor.properties
 
+set -x
     SQL_URL=`echo $DATABASE_URL | sed 's?.*@\(.*\)?jdbc:postgres://\1?'`
     SQL_USER=`echo $DATABASE_URL | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?\(.*\):.*?\1?'`
     SQL_PASSWORD=`echo $DATABASE_URL | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?.*:\(.*\)@.*?\1?'`
 
-    sed     -e "s?^license-key=.*?license-key=${DATOMIC_TRANSACTOR_KEY}?"                     \
-            -e "s|^sql-url=.*|sql-url=${SQL_URL}?user=${SQL_USER}&password=${SQL_PASSWORD}|"  \
-            -e "s|^sql-user=.*|sql-user=${SQL_USER}|"                                         \
-            -e "s|^sql-password=.*|sql-password=${SQL_PASSWORD}|"                             \
+    sed     -e "s?^license-key=.*?license-key=${DATOMIC_TRANSACTOR_KEY}?" \
+            -e "s|^sql-url=.*|sql-url=${SQL_URL}|"                        \
+            -e "s|^sql-user=.*|sql-user=${SQL_USER}|"                     \
+            -e "s|^sql-password=.*|sql-password=${SQL_PASSWORD}|"         \
     ${SAMPLE_PROPERTIES_FILE} > ${OUTPUT_PROPERTIES_FILE}
 
     #TODO: automate the SQL set up?
