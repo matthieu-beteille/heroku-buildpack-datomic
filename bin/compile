@@ -12,6 +12,9 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
+echo $ENV_DIR
+ls $ENV_DIR
+
 export_env_dir $ENV_DIR
 
 JVM_COMMON_BUILDPACK=${JVM_COMMON_BUILDPACK:-https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz}
