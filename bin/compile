@@ -73,7 +73,9 @@ else
     echo "-----> Datomic Installation complete"
 fi
 
-chmod -R +x ${BUILD_DIR}/datomic
+cp $BP_DIR/vendor/datomic/start-datomic.sh ${BUILD_DIR}/start-datomic
+
+chmod -R +x ${BUILD_DIR}
 
 PROFILE_PATH="${BUILD_DIR}/.profile.d/java.sh"
 mkdir -p $(dirname ${PROFILE_PATH})
