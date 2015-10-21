@@ -63,7 +63,7 @@ else
     SQL_USER=`echo $DATABASE_URL | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?\(.*\):.*?\1?'`
     SQL_PASSWORD=`echo $DATABASE_URL | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?.*:\(.*\)@.*?\1?'`
 
-    sed     -e "s?^license-key=?license-key=${DATOMIC_TRANSACTOR_KEY}?" \e 
+    sed     -e "s?^license-key=?license-key=${DATOMIC_TRANSACTOR_KEY}?" \
             -e "s?^sql-url=?sql-url=${SQL_URL}?"                        \
             -e "s?^sql-user=?sql-user=${SQL_USER}?"                     \
             -e "s?^sql-password=?sql-password=${SQL_PASSWORD}?"         \
