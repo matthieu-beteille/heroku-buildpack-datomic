@@ -21,9 +21,9 @@ unset JAVA_OPTS
 set -x
 ip -4 -o addr show dev eth1
 
-dyno-ip=$(ip -4 -o addr show dev eth1 | awk '{print $4}' | cut -d/ -f1)
+IP=$(ip -4 -o addr show dev eth1 | awk '{print $4}' | cut -d/ -f1)
 
-echo "DYNO_IP = $dyno-ip"
+echo "DYNO_IP = $IP"
 set +x
 ########------- END -----##### publish the dyno IP
 
