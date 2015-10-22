@@ -5,7 +5,7 @@ This is based on the official [Heroku buildpack](http://devcenter.heroku.com/art
 
 ## How it works
 
-The buildpack will detect your app as Java if it has a `load.datomic` file in its root directory.
+The buildpack will detect your app as Datomic if it has a `load.datomic` file in its root directory.
 
 
 License
