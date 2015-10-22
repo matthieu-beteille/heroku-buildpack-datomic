@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 
+if [ -z "${SCRIPTS_HOME}" ]
+then
+    SCRIPTS_HOME=/app/scripts
+fi
+
+cd ${SCRIPTS_HOME}
+
 ./datomic-postgres-setup-checker.sh
 
-PROPERTIES=/app/transactor.properties
+PROPERTIES=transactor.properties
 
 DYNO_PROPERTIES=/tmp/${PROPERTIES}.heroku
 
