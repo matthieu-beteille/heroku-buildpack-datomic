@@ -58,8 +58,7 @@ else
     SAMPLE_PROPERTIES_FILE=${BUILD_DIR}/datomic/config/samples/${STORAGE_SERVICE}-template.properties
     OUTPUT_PROPERTIES_FILE=${BUILD_DIR}/transactor.properties
 
-set -x
-    SQL_URL=`echo $DATABASE_URL | sed 's?.*@\(.*\)?jdbc:postgres://\1?'`
+    SQL_URL=`echo $DATABASE_URL | sed 's?.*@\(.*\)?jdbc:postgresql://\1?'`
     SQL_USER=`echo $DATABASE_URL | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?\(.*\):.*?\1?'`
     SQL_PASSWORD=`echo $DATABASE_URL | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?.*:\(.*\)@.*?\1?'`
 
