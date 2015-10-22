@@ -77,6 +77,7 @@ then
             -e "s|^sql-url=.*|sql-url=${SQL_URL}|"                          \
             -e "s|^sql-user=.*|sql-user=${SQL_USER}|"                       \
             -e "s|^sql-password=.*|sql-password=${SQL_PASSWORD}|"           \
+            -e 's/.*\(sql-driver-params=\).*/\1ssl=true\&sslfactory=org.postgresql.ssl.NonValidatingFactory/' \
     ${SAMPLE_PROPERTIES_FILE} > ${OUTPUT_PROPERTIES_FILE}
 
     #TODO: automate the SQL set up?
