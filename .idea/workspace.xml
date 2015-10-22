@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b2542af8-f3fc-4a4a-9002-04eb3ff44daa" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/datomic/datomic-postgres-setup-checker.sh" afterPath="$PROJECT_DIR$/vendor/datomic/datomic-postgres-setup-checker.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/datomic/start-datomic.sh" afterPath="$PROJECT_DIR$/vendor/datomic/start-datomic.sh" />
     </list>
     <ignored path="heroku-buildpack-java.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,11 +66,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="start-datomic.sh" pinned="false" current-in-tab="false">
+      <file leaf-file-name="start-datomic.sh" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vendor/datomic/start-datomic.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.29022405">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -106,10 +106,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="datomic-table-exists-query.sql" pinned="false" current-in-tab="true">
+      <file leaf-file-name="datomic-table-exists-query.sql" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vendor/datomic/datomic-table-exists-query.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.015274949">
+            <state vertical-scroll-proportion="0.0">
               <caret line="1" column="48" selection-start-line="1" selection-start-column="48" selection-end-line="1" selection-end-column="48" />
               <folding />
             </state>
@@ -142,8 +142,8 @@
         <option value="$PROJECT_DIR$/vendor/datomic/postgres-setup.sql" />
         <option value="$PROJECT_DIR$/vendor/datomic/setup-checker.sh" />
         <option value="$PROJECT_DIR$/bin/compile" />
-        <option value="$PROJECT_DIR$/vendor/datomic/start-datomic.sh" />
         <option value="$PROJECT_DIR$/vendor/datomic/datomic-postgres-setup-checker.sh" />
+        <option value="$PROJECT_DIR$/vendor/datomic/start-datomic.sh" />
       </list>
     </option>
   </component>
@@ -556,7 +556,8 @@
     <MESSAGE value=":lock: Add SSL to Postgres connection" />
     <MESSAGE value=" :white_check_mark: checking for Postgres setup" />
     <MESSAGE value=" :art: fixing up location of scripts" />
-    <option name="LAST_COMMIT_MESSAGE" value=" :art: fixing up location of scripts" />
+    <MESSAGE value=" :art: small fix in the ordering of messages" />
+    <option name="LAST_COMMIT_MESSAGE" value=" :art: small fix in the ordering of messages" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -771,14 +772,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/datomic/start-datomic.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bin/compile">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -797,8 +790,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/datomic/datomic-table-exists-query.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.015274949">
+        <state vertical-scroll-proportion="0.0">
           <caret line="1" column="48" selection-start-line="1" selection-start-column="48" selection-end-line="1" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/datomic/start-datomic.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29022405">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding />
         </state>
       </provider>
