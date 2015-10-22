@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-exists=`psql $DATABASE_URL < datomic-table-exists-query.sql | grep '(1 row)'`
-
 echo -n "-----> Checking Datomic <-> Postgres setup ... "
+
+exists=`psql $DATABASE_URL < datomic-table-exists-query.sql | grep '(1 row)'`
 
 if [ -n "${exists}" ]
 then
