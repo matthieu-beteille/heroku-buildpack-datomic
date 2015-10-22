@@ -85,7 +85,7 @@ then
     echo "done"
 fi
 
-cp $BP_DIR/vendor/datomic/start-datomic.sh ${BUILD_DIR}/start-datomic
+cp $BP_DIR/vendor/datomic/* ${BUILD_DIR}/scripts
 
 chmod -R +x ${BUILD_DIR}
 
