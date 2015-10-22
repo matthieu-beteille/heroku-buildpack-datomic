@@ -6,5 +6,5 @@ sed "s/^port=4334/port=$PORT/" ${PROPERTIES} > ${PROPERTIES}.heroku
 
 unset JAVA_OPTS
 
-transactor -Xmx512m -Xms256m ${PROPERTIES}.heroku
+transactor -Xmx512m -Xms256m ${PROPERTIES}.heroku | sed 's/\(.*\)&password=.*,\(.*\)/\1\&password=*****, \2/'
 
