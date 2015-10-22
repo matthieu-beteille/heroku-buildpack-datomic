@@ -85,6 +85,7 @@ then
     echo "done"
 fi
 
+mkdir ${BUILD_DIR}/scripts
 cp $BP_DIR/vendor/datomic/* ${BUILD_DIR}/scripts
 
 chmod -R +x ${BUILD_DIR}
