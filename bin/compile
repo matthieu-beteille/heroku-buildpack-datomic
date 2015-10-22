@@ -46,24 +46,24 @@ DATOMIC_REPO_PRO=${DATOMIC_DOMAIN}/repo/com/datomic/datomic-pro
 
 if [ ${DATOMIC_FREE_VERSION} == "true" ]
 then
-    echo -n "-----> Installing the Free version of Datomic ${DATOMIC_VERSION} ... "
+    echo -n "-----> Installing the Free version of Datomic ${DATOMIC_VERSION}... "
     curl -L --silent ${DATOMIC_REPO_FREE}/${DATOMIC_VERSION} > datomic.zip
     jar xf datomic.zip
     mv datomic-free-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
-    echo " complete"
+    echo "done"
 else
-    echo -n "-----> Installing the Pro version of Datomic ${DATOMIC_VERSION} ... "
+    echo -n "-----> Installing the Pro version of Datomic ${DATOMIC_VERSION}... "
     curl -L --silent -u ${DATOMIC_LICENSE_USER}:${DATOMIC_LICENSE_PASSWORD} ${DATOMIC_REPO_PRO}/${DATOMIC_VERSION}/datomic-pro-${DATOMIC_VERSION}.zip > datomic.zip
     jar xf datomic.zip
     mv datomic-pro-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
-    echo " complete"
+    echo "done"
 fi
 
 #TODO - read env to support other STORAGE services? Or make another build-pack??
 
 if [ ${DATOMIC_FREE_VERSION} == "false" ] ######### TODO: add this?? && [ ${DATOMIC_STORAGE} == "postgres" ]
 then
-    echo -n "-----> Configuring Datomic to connect to Postgres ... "
+    echo -n "-----> Configuring Datomic to connect to Postgres... "
     STORAGE_SERVICE=sql-transactor
 
     SAMPLE_PROPERTIES_FILE=${BUILD_DIR}/datomic/config/samples/${STORAGE_SERVICE}-template.properties
@@ -75,13 +75,13 @@ then
 
     sed     -e "s?^license-key=.*?license-key=${DATOMIC_TRANSACTOR_KEY}?"   \
             -e "s|^sql-url=.*|sql-url=${SQL_URL}|"                          \
-            -e "s|^sql-user=.*|sql-user=${SQL_USER}|"                                         \
-            -e "s|^sql-password=.*|sql-password=${SQL_PASSWORD}|"                             \
+            -e "s|^sql-user=.*|sql-user=${SQL_USER}|"                       \
+            -e "s|^sql-password=.*|sql-password=${SQL_PASSWORD}|"           \
     ${SAMPLE_PROPERTIES_FILE} > ${OUTPUT_PROPERTIES_FILE}
 
     #TODO: automate the SQL set up?
 
-    echo " complete"
+    echo "done"
 fi
 
 cp $BP_DIR/vendor/datomic/start-datomic.sh ${BUILD_DIR}/start-datomic
