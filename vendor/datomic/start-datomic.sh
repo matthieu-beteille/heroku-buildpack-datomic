@@ -18,13 +18,11 @@ sed "s/^port=4334/port=$PORT/" ${PROPERTIES} > ${DYNO_PROPERTIES}
 unset JAVA_OPTS
 
 ########------- START ---##### publish the dyno IP
-set -x
-ip -4 -o addr show dev eth1
 
 IP=$(ip -4 -o addr show dev eth1 | awk '{print $4}' | cut -d/ -f1)
 
 echo "DYNO_IP = $IP"
-set +x
+
 ########------- END -----##### publish the dyno IP
 
 transactor -Xmx512m -Xms256m ${DYNO_PROPERTIES} | sed 's/\(.*\)&password=.*&\(.*\)/\1\&password=*****\&\2/'

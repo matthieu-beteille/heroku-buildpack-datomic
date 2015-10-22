@@ -69,8 +69,8 @@
       <file leaf-file-name="start-datomic.sh" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vendor/datomic/start-datomic.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.29022405">
-              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.305499">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -557,7 +557,8 @@
     <MESSAGE value=" :white_check_mark: checking for Postgres setup" />
     <MESSAGE value=" :art: fixing up location of scripts" />
     <MESSAGE value=" :art: small fix in the ordering of messages" />
-    <option name="LAST_COMMIT_MESSAGE" value=" :art: small fix in the ordering of messages" />
+    <MESSAGE value=" :penguin: checking out how the IP works on the Space" />
+    <option name="LAST_COMMIT_MESSAGE" value=" :penguin: checking out how the IP works on the Space" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -798,8 +799,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/datomic/start-datomic.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29022405">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.305499">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
