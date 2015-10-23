@@ -102,16 +102,28 @@ echo 'export JAVA_TOOL_OPTIONS="$JAVA_TOOL_OPTIONS -Djava.rmi.server.useCodebase
 
 
 # Install REDIS CLI - hack up a registry on REDIS until Heroku have something
-mkdir ${CACHE_DIR}
+mkdir -p ${CACHE_DIR}
 cd $CACHE_DIR
 
-echo -n "-----> Obtaining and compiling REDIS... "
+if [ ! -f dist/redis-cli ]
+then
+    echo -n "-----> Obtaining and compiling REDIS... "
 
-wget http://download.redis.io/redis-stable.tar.gz
-tar xvzf redis-stable.tar.gz
-cd redis-stable
-make
-cp src/redis-cli ${BUILD_DIR}
 
-echo "done"
+    wget http://download.redis.io/redis-stable.tar.gz
+    tar xzf redis-stable.tar.gz
+    (cd redis-stable && make)
+
+    mkdir -p dist # where the CLI will be cached
+    cp redis-stable/src/redis-cli dist
+
+    # Don't need all of this being sent around
+    rm -f redis-stable.tar.gz
+    rm -rf redis-stable
+
+    echo "done"
+fi
+
+cp dist/redis-cli ${BUILD_DIR}
+
 
