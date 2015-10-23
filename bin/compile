@@ -99,3 +99,19 @@ mkdir -p $(dirname ${PROFILE_PATH})
 echo 'export PATH="/app/.jdk/bin:$PATH"' >> ${PROFILE_PATH}
 echo 'export PATH="/app/datomic/bin:$PATH"' >> ${PROFILE_PATH}
 echo 'export JAVA_TOOL_OPTIONS="$JAVA_TOOL_OPTIONS -Djava.rmi.server.useCodebaseOnly=true"' >> ${PROFILE_PATH}
+
+
+# Install REDIS CLI - hack up a registry on REDIS until Heroku have something
+mkdir ${CACHE_DIR}
+cd $CACHE_DIR
+
+echo -n "-----> Obtaining and compiling REDIS... "
+
+wget http://download.redis.io/redis-stable.tar.gz
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+make
+cp src/redis-cli ${BUILD_DIR}
+
+echo "done"
+
