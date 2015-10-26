@@ -98,6 +98,7 @@ PROFILE_PATH="${BUILD_DIR}/.profile.d/java.sh"
 mkdir -p $(dirname ${PROFILE_PATH})
 echo 'export PATH="/app/.jdk/bin:$PATH"' >> ${PROFILE_PATH}
 echo 'export PATH="/app/datomic/bin:$PATH"' >> ${PROFILE_PATH}
+echo 'export PATH="$SCRIPTS_TARGET_DIR:$PATH"' >> ${PROFILE_PATH}
 echo 'export JAVA_TOOL_OPTIONS="$JAVA_TOOL_OPTIONS -Djava.rmi.server.useCodebaseOnly=true"' >> ${PROFILE_PATH}
 
 
@@ -124,6 +125,6 @@ then
     echo "done"
 fi
 
-cp dist/redis-cli ${BUILD_DIR}
+cp dist/redis-cli ${SCRIPTS_TARGET_DIR}
 
 
