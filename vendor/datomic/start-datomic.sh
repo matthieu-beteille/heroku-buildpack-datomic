@@ -32,14 +32,15 @@ fi
 
 ########------- END -----##### publish the dyno IP
 
-# We got here so now we can do the work...
-
 if [ -z "${SCRIPTS_HOME}" ]
 then
     SCRIPTS_HOME=/app/scripts
 fi
 
-${SCRIPTS_HOME}/datomic-postgres-setup-checker.sh
+${SCRIPTS_HOME}/datomic-postgres-setup-checker.sh || {
+    echo "Failed to establish whether Postgres is properly setup - aborting dyno"
+    exit 1
+}
 
 PROPERTIES=${SCRIPTS_HOME}/transactor.properties
 
