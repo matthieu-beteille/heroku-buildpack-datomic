@@ -9,6 +9,8 @@ SQL_SSL_FACTORY='sslfactory=org.postgresql.ssl.NonValidatingFactory'
 JDBC_URL="${SQL_URL}?${SQL_USER}&${SQL_PASSWORD}&${SQL_SSL}&${SQL_SSL_FACTORY}"
 
 
+#TODO... pop the message from redis on sigterm
+
 ########------- START ---##### publish the dyno IP
 
 if [ -z "${REDIS_URL}" ]
@@ -27,7 +29,7 @@ REDIS_PASSWORD=`echo ${REDIS_URL} | sed -e 's|redis://\(.*\)@.*:.*|\1|' -e 's|.*
 
 REDIS="redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD}"
 
-echo 'LPUSH datomic "{\"host\": \"'${DYNO_IP}'\", \"port\":'${PORT}', \"jdbc_url\":'${JDBC_URL}'}"' | ${REDIS}
+echo 'LPUSH datomic "{\"host\": \"'${DYNO_IP}'\", \"port\":'${PORT}', \"jdbc_url\": \"'${JDBC_URL}'\"}"' | ${REDIS}
 
 echo Dyno IP ${DYNO_IP} and port ${PORT}
 
