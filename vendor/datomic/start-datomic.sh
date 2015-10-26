@@ -8,8 +8,6 @@ then
     exit 1
 fi
 
-set -x
-
 DYNO_IP=$(ip -4 -o addr show dev eth1 | awk '{print $4}' | cut -d/ -f1)
 
 REDIS_HOST=`echo ${REDIS_URL} | sed 's|.*@\(.*\):.*|\1|'`
@@ -22,8 +20,12 @@ REDIS="redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD}"
 
 echo 'LPUSH datomic "{\"host\": \"'${DYNO_IP}'\", \"port\":'${PORT}'}"' | ${REDIS}
 
+echo Dyno IP ${DYNO_IP} and port ${PORT}
+
+echo REDIS First
 echo 'LINDEX datomic 0' | ${REDIS}
 
+echo REDIS Last
 echo 'LINDEX datomic -1' | ${REDIS}
 
 #if [ ${OK} == 0 ]
