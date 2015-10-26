@@ -26,13 +26,13 @@ echo 'LINDEX datomic 0' | ${REDIS}
 
 echo 'LINDEX datomic -1' | ${REDIS}
 
-if [ ${OK} == 0 ]
-then
-    echo "Published Dyno IP to REDIS"
-else
-    echo "Failed to publish Dyno IP to REDIS - aborting dyno"
-    exit 1
-fi
+#if [ ${OK} == 0 ]
+#then
+#    echo "Published Dyno IP to REDIS"
+#else
+#    echo "Failed to publish Dyno IP to REDIS - aborting dyno"
+#    exit 1
+#fi
 
 ########---> TODO: think about how clients can heartbeat this value
 
