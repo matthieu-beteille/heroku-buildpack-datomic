@@ -22,11 +22,9 @@ echo 'LPUSH datomic "{\"host\": \"'${DYNO_IP}'\", \"port\":'${PORT}'}"' | ${REDI
 
 echo Dyno IP ${DYNO_IP} and port ${PORT}
 
-echo REDIS First
-echo 'LINDEX datomic 0' | ${REDIS}
+echo REDIS First `echo 'LINDEX datomic 0' | ${REDIS}`
 
-echo REDIS Last
-echo 'LINDEX datomic -1' | ${REDIS}
+echo REDIS Last `echo 'LINDEX datomic -1' | ${REDIS}`
 
 #if [ ${OK} == 0 ]
 #then
@@ -52,7 +50,7 @@ ${SCRIPTS_HOME}/datomic-postgres-setup-checker.sh || {
 
 PROPERTIES=${SCRIPTS_HOME}/transactor.properties
 
-DYNO_PROPERTIES=${SCRIPTS_HOME}/${PROPERTIES}.heroku
+DYNO_PROPERTIES=${PROPERTIES}.heroku
 
 sed "s/^port=4334/port=$PORT/" ${PROPERTIES} > ${DYNO_PROPERTIES}
 
