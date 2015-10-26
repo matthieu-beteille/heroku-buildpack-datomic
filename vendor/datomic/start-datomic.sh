@@ -20,7 +20,11 @@ REDIS_PASSWORD=`echo ${REDIS_URL} | sed -e 's|redis://\(.*\)@.*:.*|\1|' -e 's|.*
 
 REDIS="redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD}"
 
-OK=`echo 'LPUSH datomic "{\"host\": \"'${DYNO_IP}'\", \"port\":'${PORT}'}"' | ${REDIS} | egrep '^[0-9]*$'`
+echo 'LPUSH datomic "{\"host\": \"'${DYNO_IP}'\", \"port\":'${PORT}'}"' | ${REDIS}
+
+echo 'LINDEX datomic 0' | ${REDIS}
+
+echo 'LINDEX datomic -1' | ${REDIS}
 
 if [ ${OK} == 0 ]
 then
