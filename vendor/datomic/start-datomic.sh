@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+SQL_URL=`echo $DATABASE_URL | sed 's?.*@\(.*\)?jdbc:postgresql://\1?'`
+SQL_USER=`echo $DATABASE_URL | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?\(.*\):.*?\1?'`
+SQL_PASSWORD=`echo $DATABASE_URL | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?.*:\(.*\)@.*?\1?'`
+SQL_SSL='ssl=true'
+SQL_SSL_FACTORY='sslfactory=org.postgresql.ssl.NonValidatingFactory'
+
+JDBC_URL="${SQL_URL}?${SQL_USER}&${SQL_PASSWORD}&${SQL_SSL}&${SQL_SSL_FACTORY}"
+
+
 ########------- START ---##### publish the dyno IP
 
 if [ -z "${REDIS_URL}" ]
@@ -18,7 +27,7 @@ REDIS_PASSWORD=`echo ${REDIS_URL} | sed -e 's|redis://\(.*\)@.*:.*|\1|' -e 's|.*
 
 REDIS="redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD}"
 
-echo 'LPUSH datomic "{\"host\": \"'${DYNO_IP}'\", \"port\":'${PORT}'}"' | ${REDIS}
+echo 'LPUSH datomic "{\"host\": \"'${DYNO_IP}'\", \"port\":'${PORT}', \"jdbc_url\":'${JDBC_URL}'}"' | ${REDIS}
 
 echo Dyno IP ${DYNO_IP} and port ${PORT}
 

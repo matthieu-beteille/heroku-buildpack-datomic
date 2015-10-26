@@ -58,16 +58,21 @@ then
     echo "done"
 else
     echo -n "-----> Installing the Pro version of Datomic ${DATOMIC_VERSION}... "
+
+    [ -z "${DATOMIC_LICENSE_USER}" ] || [ -z "${DATOMIC_LICENSE_PASSWORD}" ] && {
+        echo "DATOMIC_LICENSE_USER or DATOMIC_LICENSE_PASSWORD is not set - aborting"
+        exit 1
+    }
+
     curl -L --silent -u ${DATOMIC_LICENSE_USER}:${DATOMIC_LICENSE_PASSWORD} ${DATOMIC_REPO_PRO}/${DATOMIC_VERSION}/datomic-pro-${DATOMIC_VERSION}.zip > datomic.zip
     jar xf datomic.zip
     mv datomic-pro-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
     echo "done"
-fi
 
-#TODO - read env to support other STORAGE services? Or make another build-pack??
-
-if [ ${DATOMIC_FREE_VERSION} == "false" ] ######### TODO: add this?? && [ ${DATOMIC_STORAGE} == "postgres" ]
-then
+    [ -z "${DATOMIC_TRANSACTOR_KEY}" ] && {
+        echo "DATOMIC_TRANSACTOR_KEY is not set - aborting"
+        exit 1
+    }
     echo -n "-----> Configuring Datomic to connect to Postgres... "
     STORAGE_SERVICE=sql-transactor
 
