@@ -8,6 +8,8 @@ then
     exit 1
 fi
 
+set -x
+
 DYNO_IP=$(ip -4 -o addr show dev eth1 | awk '{print $4}' | cut -d/ -f1)
 
 REDIS_HOST=`echo ${REDIS_URL} | sed 's|.*@\(.*\):.*|\1|'`
