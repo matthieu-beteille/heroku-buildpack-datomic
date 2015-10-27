@@ -7,12 +7,12 @@ then
     SCRIPTS_HOME=/app/scripts
 fi
 
-#exists=`psql $DATABASE_URL < ${SCRIPTS_HOME}/datomic-table-exists-query.sql | grep '(1 row)'`
-#
-#if [ -n "${exists}" ]
-#then
-#    echo "done"
-#else
+exists=`psql $DATABASE_URL < ${SCRIPTS_HOME}/datomic-table-exists-query.sql | grep '(1 row)'`
+
+if [ -n "${exists}" ]
+then
+    echo "done"
+else
 
     [ -z "${JDBC_DATABASE_USERNAME}" ] && echo "JDBC_DATABASE_USERNAME is not known - stopping" && exit 1
 
@@ -31,7 +31,7 @@ fi
         exit 1
     fi
 
-#fi
+fi
 
 exit 0
 
