@@ -16,8 +16,8 @@ DYNO_PROPERTIES=${PROPERTIES}.heroku
 
 DYNO_IP=$(ip -4 -o addr show dev eth1 | awk '{print $4}' | cut -d/ -f1)
 
-sed -e "s/^host=localhost/host=${DYNO_IP}" \
-    -e "s/^port=4334/port=${PORT}/"        \
+sed -e "s/^host=localhost/host=${DYNO_IP}/" \
+    -e "s/^port=4334/port=${PORT}/"         \
     ${PROPERTIES} > ${DYNO_PROPERTIES}
 
 unset JAVA_OPTS
