@@ -1,37 +1,5 @@
 #!/usr/bin/env bash
 
-########------- START ---##### publish the dyno IP
-
-if [ -z "${REDIS_URL}" ]
-then
-    echo "REDIS_URL missing but must be set"
-    exit 1
-fi
-
-DYNO_IP=$(ip -4 -o addr show dev eth1 | awk '{print $4}' | cut -d/ -f1)
-
-REDIS_HOST=`echo ${REDIS_URL} | sed 's|.*@\(.*\):.*|\1|'`
-
-REDIS_PORT=`echo ${REDIS_URL} | sed 's|.*:\(.*\)|\1|'`
-
-REDIS_PASSWORD=`echo ${REDIS_URL} | sed -e 's|redis://\(.*\)@.*:.*|\1|' -e 's|.*:\(.*\)|\1|'`
-
-REDIS="redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} -a ${REDIS_PASSWORD}"
-
-OK=`echo 'LPUSH datomic "{\"host\": \"'${DYNO_IP}'\", \"port\":'${PORT}'}"' | ${REDIS} | egrep '^[0-9]*$'`
-
-if [ ${OK} == 0 ]
-then
-    echo "Published Dyno IP to REDIS"
-else
-    echo "Failed to publish Dyno IP to REDIS - aborting dyno"
-    exit 1
-fi
-
-########---> TODO: think about how clients can heartbeat this value
-
-########------- END -----##### publish the dyno IP
-
 # We got here so now we can do the work...
 
 if [ -z "${SCRIPTS_HOME}" ]
@@ -45,7 +13,11 @@ PROPERTIES=${SCRIPTS_HOME}/transactor.properties
 
 DYNO_PROPERTIES=${SCRIPTS_HOME}/${PROPERTIES}.heroku
 
-sed "s/^port=4334/port=$PORT/" ${PROPERTIES} > ${DYNO_PROPERTIES}
+## Put this in the datomic properties and it will take care of failover
+
+DYNO_IP=$(ip -4 -o addr show dev eth1 | awk '{print $4}' | cut -d/ -f1)
+
+sed -e "s/^host=localhost/host=${DYNO_IP}" -e "s/^port=4334/port=${PORT}/" ${PROPERTIES} > ${DYNO_PROPERTIES}
 
 unset JAVA_OPTS
 
