@@ -90,8 +90,6 @@ else
             -e 's/.*\(sql-driver-params=\).*/\1ssl=true;sslfactory=org.postgresql.ssl.NonValidatingFactory/' \
     ${SAMPLE_PROPERTIES_FILE} > ${OUTPUT_PROPERTIES_FILE}
 
-    #TODO: automate the SQL set up?
-
     echo "done"
 fi
 
@@ -105,31 +103,3 @@ echo 'export PATH="/app/.jdk/bin:$PATH"' >> ${PROFILE_PATH}
 echo 'export PATH="/app/datomic/bin:$PATH"' >> ${PROFILE_PATH}
 echo 'export PATH="/app/scripts:$PATH"' >> ${PROFILE_PATH}
 echo 'export JAVA_TOOL_OPTIONS="$JAVA_TOOL_OPTIONS -Djava.rmi.server.useCodebaseOnly=true"' >> ${PROFILE_PATH}
-
-
-# Install REDIS CLI - hack up a registry on REDIS until Heroku have something
-mkdir -p ${CACHE_DIR}
-cd $CACHE_DIR
-
-if [ ! -f dist/redis-cli ]
-then
-    echo -n "-----> Obtaining and compiling REDIS... "
-
-
-    wget http://download.redis.io/redis-stable.tar.gz
-    tar xzf redis-stable.tar.gz
-    (cd redis-stable && make)
-
-    mkdir -p dist # where the CLI will be cached
-    cp redis-stable/src/redis-cli dist
-
-    # Don't need all of this being sent around
-    rm -f redis-stable.tar.gz
-    rm -rf redis-stable
-
-    echo "done"
-fi
-
-cp dist/redis-cli ${SCRIPTS_TARGET_DIR}
-
-

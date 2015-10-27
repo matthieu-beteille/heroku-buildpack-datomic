@@ -16,10 +16,13 @@ DYNO_PROPERTIES=${PROPERTIES}.heroku
 
 DYNO_IP=$(ip -4 -o addr show dev eth1 | awk '{print $4}' | cut -d/ -f1)
 
-sed -e "s/^host=localhost/host=${DYNO_IP}" "s/^port=4334/port=${PORT}/" ${PROPERTIES} > ${DYNO_PROPERTIES}
+sed -e "s/^host=localhost/host=${DYNO_IP}" \
+    -e "s/^port=4334/port=${PORT}/"        \
+    ${PROPERTIES} > ${DYNO_PROPERTIES}
 
 unset JAVA_OPTS
 
 # Do not log passwords (Datomic should not do this)
+# -Ddatomic.printConnectionInfo=false
 
 transactor -Xmx512m -Xms256m ${DYNO_PROPERTIES} | sed 's|\(.*\)&password=.*&\(.*\)|\1\&password=*****\&\2|'
