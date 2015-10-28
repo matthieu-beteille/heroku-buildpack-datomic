@@ -7,9 +7,9 @@ then
     SCRIPTS_HOME=/app/scripts
 fi
 
-exists=`psql $DATABASE_URL < ${SCRIPTS_HOME}/datomic-table-exists-query.sql | grep '(1 row)'`
+TABLE_EXISTS=`psql ${DATABASE_URL} < ${SCRIPTS_HOME}/datomic-table-exists-query.sql | grep '(1 row)'`
 
-if [ -n "${exists}" ]
+if [ -n "${TABLE_EXISTS}" ]
 then
     echo "done"
 else
@@ -21,9 +21,9 @@ else
 
     sed "s/|owner|/$JDBC_DATABASE_USERNAME/" ${INPUT} > ${TABLE_SETUP}
 
-    created=`psql $DATABASE_URL < ${TABLE_SETUP} | grep ALTER`
+    TABLE_CREATED=`psql ${DATABASE_URL} < ${TABLE_SETUP} | grep ALTER`
 
-    if [ -n "$created" ]
+    if [ -n "${TABLE_CREATED}" ]
     then
         echo "done"
     else

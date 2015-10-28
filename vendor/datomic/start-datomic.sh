@@ -22,7 +22,8 @@ sed -e "s/^host=localhost/host=${DYNO_IP}/" \
 
 unset JAVA_OPTS
 
-# Do not log passwords (Datomic should not do this)
-# -Ddatomic.printConnectionInfo=false
+echo "JAVA_OPTS being dropped <<${JAVA_OPTS}>>"
 
-transactor -Xmx512m -Xms256m ${DYNO_PROPERTIES} | sed 's|\(.*\)&password=.*&\(.*\)|\1\&password=*****\&\2|'
+# Do not log passwords (Datomic should not do this)
+
+transactor -Ddatomic.printConnectionInfo=false -Xmx512m -Xms256m ${DYNO_PROPERTIES}
