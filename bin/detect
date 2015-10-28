@@ -6,6 +6,7 @@ PROCFILE=$1/Procfile
 if [ -f ${PROCFILE} ]; then
   datomic=`sed '/^datomic/q' ${PROCFILE}`
   if [ -n "$datomic" ]; then
+    echo "We have a Datomic xtor request"
     exit 0
   else
     exit 1
