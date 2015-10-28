@@ -5,7 +5,11 @@ PROCFILE=$1/Procfile
 
 if [ -f ${PROCFILE} ]; then
   datomic=`sed '/^datomic/q' ${PROCFILE}`
-  [ -n "$datomic" ] && exit 0 || exit 1
+  if [ -n "$datomic" ]; then
+    exit 0
+  else
+    exit 1
+  fi
 else
   echo "No Procfile or unrecognised" && exit 1
 fi
