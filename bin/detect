@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 # bin/use <build-dir>
 
-if [ -f $1/load.datomic ]; then
-   echo "Datomic" && exit 0
+PROCFILE=$1/Procfile
+
+if [ -f ${PROCFILE} ]; then
+  datomic=`sed '/^datomic/q' ${PROCFILE}`
+  [ -n "$datomic" ] && exit 0 || exit 1
 else
-  echo "no" && exit 1
+  echo "No Procfile or unrecognised" && exit 1
 fi
