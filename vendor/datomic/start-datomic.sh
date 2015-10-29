@@ -22,6 +22,8 @@ sed -e "s/^host=localhost/host=${DYNO_IP}/" \
 
 unset JAVA_OPTS
 
+
+
 # Do not log passwords (Datomic should not do this)
 
-transactor -Ddatomic.printConnectionInfo=false -Xmx1g -Xms256m ${DYNO_PROPERTIES}
+transactor -Ddatomic.printConnectionInfo=false -Xmx2g -Xms256m ${DYNO_PROPERTIES}
