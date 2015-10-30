@@ -65,9 +65,9 @@ When clients connect to the storage they will be automatically transitioned to t
 
 ## ToDo
 
-This is the first buildpack I have made and it relies on native Heroku components.
+- Add other storage options that are not available on the Heroku platform
 
-I would like to add other storage options in the future that are not available on the Heroku platform but are in the same AWS data-centre.
+
 
 License
 -------
