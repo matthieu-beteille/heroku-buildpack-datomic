@@ -19,9 +19,11 @@ To use this buildpack you need to have access to Heroku Spaces. Outside of Herok
 
 ## Configuring a custom buildpack
 
+To enable this buildpack on an existing project:
+
 ````heroku buildpacks:set https://github.com/opengrail/heroku-buildpack-datomic -a myapp````
 
-For more details see the [Heroku web site on third party buildpacks](https://devcenter.heroku.com/articles/third-party-buildpacks#using-a-custom-buildpack)
+For more options and information see the [Heroku web site on third party buildpacks](https://devcenter.heroku.com/articles/third-party-buildpacks#using-a-custom-buildpack)
 
 ## Detection
 
