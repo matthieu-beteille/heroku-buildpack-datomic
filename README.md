@@ -47,9 +47,9 @@ You can optionally configure the version of Datomic you wish to deploy (default 
 
 ### Heroku Addons - Pro editions only
 
-To run any of the Pro editions, this buildpack needs you to have a Postgres database. The only Postgres database supported is
+To run any of the Pro editions, this buildpack needs you to have a Postgres database. 
 
-Heroku Postgres (free or paid)
+The only Postgres database supported is `Heroku Postgres (free or paid)`
 
 ## Dyno size
 
