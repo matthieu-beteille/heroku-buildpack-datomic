@@ -1,7 +1,15 @@
-Heroku buildpack to start Datomic
-=================================
+Heroku buildpack to start a Datomic Transactor
+==============================================
 
-This is based on the official [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for Java apps.
+## What this buildpack does
+
+- obtains and packages Datomic
+
+- prepares Postgres for use by Datomic (if not done)
+
+- starts the Datomic transactor
+
+The rest of this README explains the necessary configuration.
 
 ## Heroku pre-requisites
 
@@ -51,6 +59,8 @@ To run any of the Pro editions, this buildpack needs you to have a Postgres data
 
 The only Postgres database supported is `Heroku Postgres (free or paid)`
 
+This buildpack will automatically configure Postgres for use with Datomic (if not already done) 
+
 ## Dyno size
 
 Transactors require a minimum of 1Gb RAM in all cases. In production, 4Gb or more is preferred.
@@ -65,8 +75,13 @@ When clients connect to the storage they will be automatically transitioned to t
 
 ## ToDo
 
+- Enable further configuration such as JVM memory 
+
 - Add other storage options that are not available on the Heroku platform
 
+## Basis
+
+This is forked from the official [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for Java apps.
 
 
 License
