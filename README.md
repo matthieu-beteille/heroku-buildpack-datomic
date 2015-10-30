@@ -27,7 +27,7 @@ For more options and information see the [Heroku web site on third party buildpa
 
 ## Detection
 
-The buildpack will detect that you wish to start a Datomic transactor if it has a Procfile that has this line:
+The buildpack will detect that you wish to start a Datomic transactor if your project has a Procfile in its top level directory that has this line:
 
 ````datomic: /app/scripts/start-datomic.sh````
 
