@@ -5,13 +5,13 @@ This is based on the official [Heroku buildpack](http://devcenter.heroku.com/art
 
 ## Heroku pre-requisites
 
-This technology exploits the features of Heroku Spaces to securely inter-connect dynos. 
+This technology exploits the features of [Heroku Spaces](https://www.heroku.com/private-spaces) to securely inter-connect dynos. 
 
 To use this buildpack you need to have access to Heroku Spaces. Outside of Heroku Spaces, Datomic security is not assured.
 
 ## Configuring a custom buildpack
 
-`heroku buildpacks:set https://github.com/opengrail/heroku-buildpack-datomic -a myapp`
+````heroku buildpacks:set https://github.com/opengrail/heroku-buildpack-datomic -a myapp````
 
 For more details see the [Heroku web site on third party buildpacks](https://devcenter.heroku.com/articles/third-party-buildpacks#using-a-custom-buildpack)
 
@@ -19,7 +19,7 @@ For more details see the [Heroku web site on third party buildpacks](https://dev
 
 The buildpack will detect that you wish to start a Datomic transactor if it has a Procfile that has this line:
 
-`datomic: /app/scripts/start-datomic.sh`
+````datomic: /app/scripts/start-datomic.sh````
 
 ## Configuration
 
@@ -29,21 +29,21 @@ By default Datomic free will be started. *Data will not be stored between startu
 
 You can optionally configure the version of Datomic you wish to deploy (default is `0.9.5327`)
 
-DATOMIC_VERSION `version-number`
+````heroku config:set DATOMIC_VERSION version-number````
 
 ### Datomic Pro configuration
 
 You can get a free copy of the [Datomic Pro starter edition](http://www.datomic.com/get-datomic.html) or bring your supported license.
 
-DATOMIC_LICENSE_PASSWORD `license-password`
+````heroku config:set DATOMIC_LICENSE_PASSWORD license-password````
 
-DATOMIC_LICENSE_USER     `license-user`
+````heroku config:set DATOMIC_LICENSE_USER license-user````
 
-DATOMIC_TRANSACTOR_KEY   `license-key`
+````heroku config:set DATOMIC_TRANSACTOR_KEY license-key````
 
 You can optionally configure the version of Datomic you wish to deploy (default is `0.9.5327`)
 
-DATOMIC_VERSION `version-number`
+````heroku config:set DATOMIC_VERSION version-number````
 
 ### Heroku Addons - Pro editions only
 
