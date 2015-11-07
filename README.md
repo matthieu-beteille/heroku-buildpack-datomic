@@ -65,7 +65,7 @@ This buildpack will automatically configure Postgres for use with Datomic (if no
 
 ## Dyno size
 
-Transactors require a minimum of 1Gb RAM in all cases. In production, 4Gb or more is preferred.
+The buildpack defaults to 2Gb RAM. In production, 4Gb or more is preferred. See [Datomic documentation on capacity planning](http://docs.datomic.com/capacity.html).
 
 ## Dyno count
 
