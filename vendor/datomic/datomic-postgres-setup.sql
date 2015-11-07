@@ -1,5 +1,3 @@
--- DROP TABLE datomic_kvs;
-
 CREATE TABLE datomic_kvs
 (id text NOT NULL,
  rev integer,
