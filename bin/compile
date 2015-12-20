@@ -42,13 +42,13 @@ detect_version() {
 }
 
 [ -z "${DATOMIC_VERSION}" ] && {
-    DATOMIC_VERSION=0.9.5344
+    DATOMIC_VERSION=0.9.5327
 
     version=$(detect_version)
     [ -n "${version}" ] && DATOMIC_VERSION=${version}
 }
 
-echo -n "-----> Installing Datomic ${DATOMIC_VERSION}... "
+echo -n "-----> Installing Datomic ${DATOMIC_VERSION}... (default is 0.9.5327)"
 
 DATOMIC_FREE_VERSION=true
 
