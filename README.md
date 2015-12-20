@@ -67,7 +67,7 @@ The buildpack has support for `Heroku Postgres` and `Amazon DynamoDB`
 
 where storage_type is `HEROKU_POSTGRES` or `DYNAMODB`.
 
-By default the buildpack will try to configure for HEROKU_POSTGRES
+By default the buildpack will try to configure for `HEROKU_POSTGRES`
 
 ### Heroku Postgres - Pro editions only
 
