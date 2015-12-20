@@ -62,6 +62,7 @@ then
     curl -L --silent ${DATOMIC_BINARY} > datomic.zip
     jar xf datomic.zip
     mv datomic-free-* ${BUILD_DIR}/datomic
+    echo "done" # install is done
 else
     [ -z "${DATOMIC_LICENSE_USER}" ] || [ -z "${DATOMIC_LICENSE_PASSWORD}" ] || [ -z "${DATOMIC_TRANSACTOR_KEY}" ] && {
         echo "DATOMIC_LICENSE_USER DATOMIC_LICENSE_PASSWORD DATOMIC_TRANSACTOR_KEY must be set - aborting"
@@ -72,6 +73,7 @@ else
     curl -L --silent -u ${DATOMIC_LICENSE_USER}:${DATOMIC_LICENSE_PASSWORD} ${DATOMIC_BINARY} > datomic.zip
     jar xf datomic.zip
     mv datomic-pro-* ${BUILD_DIR}/datomic
+    echo "done" # install is done
 
     # Configure storage
     . ${BP_DIR}/lib/datomic-storage-config.sh
@@ -89,5 +91,3 @@ echo 'export PATH="/app/.jdk/bin:$PATH"' >> ${PROFILE_PATH}
 echo 'export PATH="/app/datomic/bin:$PATH"' >> ${PROFILE_PATH}
 echo 'export PATH="/app/scripts:$PATH"' >> ${PROFILE_PATH}
 echo 'export JAVA_TOOL_OPTIONS="$JAVA_TOOL_OPTIONS -Djava.rmi.server.useCodebaseOnly=true"' >> ${PROFILE_PATH}
-
-echo "done"

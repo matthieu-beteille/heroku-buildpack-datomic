@@ -41,31 +41,31 @@ By default the version of Datomic is the latest published version with `0.9.5344
 
 You can optionally configure the version of Datomic you wish to deploy.
 
-````heroku config:set DATOMIC_VERSION version-number````
+````heroku config:set DATOMIC_VERSION=version-number````
 
 ### Datomic Pro configuration
 
 You can get a free copy of the [Datomic Pro starter edition](http://www.datomic.com/get-datomic.html) or bring your supported license.
 
-````heroku config:set DATOMIC_LICENSE_PASSWORD license-password````
+````heroku config:set DATOMIC_LICENSE_PASSWORD=license-password````
 
-````heroku config:set DATOMIC_LICENSE_USER license-user````
+````heroku config:set DATOMIC_LICENSE_USER=license-user````
 
-````heroku config:set DATOMIC_TRANSACTOR_KEY license-key````
+````heroku config:set DATOMIC_TRANSACTOR_KEY=license-key````
 
 By default the version of Datomic is the latest published version with `0.9.5344` as a fallback if the latest version cannot be detected for some reason.
 
 You can optionally configure the version of Datomic you wish to deploy.
 
-````heroku config:set DATOMIC_VERSION version-number````
+````heroku config:set DATOMIC_VERSION=version-number````
 
 ### Storage options
 
 The buildpack has support for `Heroku Postgres` and `Amazon DynamoDB`
 
-````heroku config:set DATOMIC_STORAGE_TYPE <TYPE> ````
+````heroku config:set DATOMIC_STORAGE_TYPE=storage_type````
 
-where <TYPE> is `HEROKU_POSTGRES` or `DYNAMODB`.
+where storage_type is `HEROKU_POSTGRES` or `DYNAMODB`.
 
 By default the buildpack will try to configure for HEROKU_POSTGRES
 
@@ -80,6 +80,10 @@ This buildpack will automatically configure Postgres for use with Datomic (if no
 We aim for simplicity in this buildpack so we reuse the [defaults for DynamoDB that Datomic supports](http://docs.datomic.com/storage.html#provisioning-dynamo).
 
 This buildpack will check that DynamoDB is configured for use with Datomic using the automated setup that Datomic provides.
+
+To provide your Amazon account details to Heroku set the configuration variables for your app like this:
+
+````heroku config:set AWS_ACCESS_KEY_ID=aws-access-key-id AWS_SECRET_KEY=aws-secret-key````
 
 ## Dyno size
 
