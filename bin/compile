@@ -34,10 +34,11 @@ mkdir ${SCRIPTS_TARGET_DIR}
 
 DATOMIC_DOMAIN=https://my.datomic.com
 
-# Highly reliant on page layout :(
+# Highly reliant on page layout but nothing officially supported yet so it's best efforts
 detect_version() {
     curl --silent -L ${DATOMIC_DOMAIN}/downloads/free |
-    grep "<td>" | head -3 | tail -1 | sed 's:.*<td>\(.*\)</td>:\1:'
+    grep "<td>" | head -3 | tail -1 |
+    sed 's:.*<td>\(.*\)</td>:\1:' | grep '^[0-9].*'
 }
 
 [ -z "${DATOMIC_VERSION}" ] && {
