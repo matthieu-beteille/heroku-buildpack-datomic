@@ -1,3 +1,4 @@
+-- noinspection SqlNoDataSourceInspectionForFile
 CREATE TABLE datomic_kvs
 (id text NOT NULL,
  rev integer,

@@ -1,20 +1,29 @@
 #!/usr/bin/env bash
 
-# TODO: Generalise this for more storage options
+STORAGE_TYPE=${DATOMIC_STORAGE_TYPE:-"HEROKU_POSTGRES"}
+
+case ${STORAGE_TYPE} in
+
+    DYNAMODB)
+        # TODO run a check against DynamoDB
+        ;;
+
+    HEROKU_POSTGRES|POSTGRES)
+        ${SCRIPTS_HOME}/datomic-postgres-setup-checker.sh
+        if [ $? -ne 0 ]
+        then
+            echo "Failed to establish whether Postgres is properly setup - aborting dyno"
+            exit 1
+        fi
+        ;;
+
+    *)  echo "Unsupported storage type '${STORAGE_TYPE}'" && return 1
+        ;;
+esac
 
 if [ -z "${SCRIPTS_HOME}" ]
 then
     SCRIPTS_HOME=/app/scripts
-fi
-
-# Check whether the Datomic table is present in Postgres
-
-${SCRIPTS_HOME}/datomic-postgres-setup-checker.sh
-
-if [ $? -ne 0 ]
-then
-    echo "Failed to establish whether Postgres is properly setup - aborting dyno"
-    exit 1
 fi
 
 PROPERTIES=${SCRIPTS_HOME}/transactor.properties
