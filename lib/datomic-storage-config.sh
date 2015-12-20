@@ -7,11 +7,9 @@ OUTPUT_PROPERTIES_FILE=${SCRIPTS_TARGET_DIR}/transactor.properties
 
 configure_storage() {
 
-    [ -z "${DATOMIC_STORAGE_TYPE}" ] && {
-        echo "You must set DATOMIC_STORAGE_TYPE" && return 1
-    }
+    STORAGE_TYPE=${DATOMIC_STORAGE_TYPE:-"HEROKU_POSTGRES"}
 
-    case ${DATOMIC_STORAGE_TYPE} in
+    case ${STORAGE_TYPE} in
 
         DYNAMODB)
             configure_ddb
@@ -21,7 +19,7 @@ configure_storage() {
             configure_sql
             ;;
 
-        *)  echo "Unsupported storage type '${STORAGE_MAP[TYPE]}'" && return 1
+        *)  echo "Unsupported storage type '${STORAGE_TYPE}'" && return 1
             ;;
     esac
 }
@@ -49,11 +47,11 @@ configure_sql() {
         echo "You must set DATABASE_URL" && return 1
     }
 
-    echo -n "-----> Configuring Datomic to connect to ${DATOMIC_STORAGE_TYPE}... "
+    echo -n "-----> Configuring Datomic to connect to ${STORAGE_TYPE}... "
 
     SAMPLE_PROPERTIES_FILE=${BUILD_DIR}/datomic/config/samples/sql-transactor-template.properties
 
-    case ${DATOMIC_STORAGE_TYPE} in
+    case ${STORAGE_TYPE} in
 
         POSTGRES)
             cat ${SAMPLE_PROPERTIES_FILE} |

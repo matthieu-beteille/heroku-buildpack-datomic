@@ -5,7 +5,7 @@ Heroku buildpack to start a Datomic Transactor
 
 - obtains and packages Datomic
 
-- prepares Postgres for use by Datomic (if not done)
+- prepares Datomic storage configurations
 
 - starts the Datomic transactor
 
@@ -37,7 +37,9 @@ The buildpack will detect that you wish to start a Datomic transactor if your pr
 
 By default Datomic free will be started. *Data will not be stored between startups*
 
-You can optionally configure the version of Datomic you wish to deploy (default is `0.9.5327`)
+By default the version of Datomic is the latest published version with `0.9.5344` as a fallback if the latest version cannot be detected for some reason.
+
+You can optionally configure the version of Datomic you wish to deploy.
 
 ````heroku config:set DATOMIC_VERSION version-number````
 
@@ -51,35 +53,55 @@ You can get a free copy of the [Datomic Pro starter edition](http://www.datomic.
 
 ````heroku config:set DATOMIC_TRANSACTOR_KEY license-key````
 
-You can optionally configure the version of Datomic you wish to deploy (default is `0.9.5327`)
+By default the version of Datomic is the latest published version with `0.9.5344` as a fallback if the latest version cannot be detected for some reason.
+
+You can optionally configure the version of Datomic you wish to deploy.
 
 ````heroku config:set DATOMIC_VERSION version-number````
 
-### Heroku Addons - Pro editions only
+### Storage options
 
-To run any of the Pro editions, this buildpack needs you to have a Postgres database. 
+The buildpack has support for `Heroku Postgres` and `Amazon DynamoDB`
+
+````heroku config:set DATOMIC_STORAGE_TYPE <TYPE> ````
+
+where <TYPE> is `HEROKU_POSTGRES` or `DYNAMODB`.
+
+By default the buildpack will try to configure for HEROKU_POSTGRES
+
+### Heroku Postgres - Pro editions only
 
 The only Postgres database supported is `Heroku Postgres (free or paid)`
 
 This buildpack will automatically configure Postgres for use with Datomic (if not already done) 
 
+### Amazon DynamoDB - Pro editions only
+
+We aim for simplicity in this buildpack so we reuse the [defaults for DynamoDB that Datomic supports](http://docs.datomic.com/storage.html#provisioning-dynamo).
+
+This buildpack will check that DynamoDB is configured for use with Datomic using the automated setup that Datomic provides.
+
 ## Dyno size
 
 The buildpack defaults to 2Gb RAM. In production, 4Gb or more is preferred. See [Datomic documentation on capacity planning](http://docs.datomic.com/capacity.html).
 
-## Dyno count
+## Dyno count - theoretical
 
-To manage failover for the Pro edition (not starter or free), 2 Transactors can be started. 
+*I have not proven this failover so you will need to work with Cognitect to obtain proper assurances*
 
-If the lead transactor fails, the other worker can takeover.
+In theory, to manage failover for the Pro edition (not starter or free), 2 transactor workers can be started.
 
-When clients connect to the storage they will be automatically transitioned to the new lead transactor.
+```heroku ps:scale datomic=2```
+
+Consult the [Datomic High Availability documentation](http://docs.datomic.com/ha.html) for more details.
 
 ## ToDo
 
-- Enable further configuration such as JVM memory 
+- Enable further configuration such as JVM memory
 
-- Add other storage options that are not available on the Heroku platform
+- support other SQL DBs [ postgres and Oracle on Amazon RDS, MySQL Heroku addons (cleardb and jawsdb) ]
+
+- support cassandra via Heroku addon (Instaclustr)
 
 ## Basis
 
