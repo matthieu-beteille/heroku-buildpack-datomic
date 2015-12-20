@@ -6,8 +6,7 @@ PROCFILE=$1/Procfile
 if [ -f ${PROCFILE} ]; then
   datomic=`sed '/^datomic/q' ${PROCFILE}`
   if [ -n "$datomic" ]; then
-    echo "Datomic transactor"
-    exit 0
+    echo "Datomic transactor" && exit 0
   else
     exit 1
   fi

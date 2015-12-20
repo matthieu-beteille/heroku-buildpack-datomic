@@ -32,65 +32,50 @@ status_done
 SCRIPTS_TARGET_DIR=${BUILD_DIR}/scripts
 mkdir ${SCRIPTS_TARGET_DIR}
 
-if [ -z "${DATOMIC_VERSION}" ]
-then
-    # TODO: find a better (more dynamic) way to obtain a default
-    DATOMIC_VERSION=0.9.5302
-fi
+DATOMIC_DOMAIN=https://my.datomic.com
+
+# Highly reliant on page layout :(
+detect_version() {
+    curl --silent -L ${DATOMIC_DOMAIN}/downloads/free |
+    grep "<td>" | head -3 | tail -1 | sed 's:.*<td>\(.*\)</td>:\1:'
+}
+
+[ -z "${DATOMIC_VERSION}" ] && {
+    DATOMIC_VERSION=0.9.5344
+
+    version=$(detect_version)
+    [ -n "${version}" ] && DATOMIC_VERSION=${version}
+}
+
+echo -n "-----> Installing Datomic ${DATOMIC_VERSION}... "
 
 DATOMIC_FREE_VERSION=true
 
-if [ -n "${DATOMIC_TRANSACTOR_KEY}" ] && [ -n "${DATOMIC_LICENSE_USER}" ] && [ -n "${DATOMIC_LICENSE_PASSWORD}" ]
-then
+[ -n "${DATOMIC_TRANSACTOR_KEY}" ] && [ -n "${DATOMIC_LICENSE_USER}" ] && [ -n "${DATOMIC_LICENSE_PASSWORD}" ] && {
     DATOMIC_FREE_VERSION=false
-fi
-
-DATOMIC_DOMAIN=https://my.datomic.com
-DATOMIC_REPO_FREE=${DATOMIC_DOMAIN}/downloads/free
-DATOMIC_REPO_PRO=${DATOMIC_DOMAIN}/repo/com/datomic/datomic-pro
+}
 
 if [ ${DATOMIC_FREE_VERSION} == "true" ]
 then
-    echo -n "-----> Installing the Free version of Datomic ${DATOMIC_VERSION}... "
-    curl -L --silent ${DATOMIC_REPO_FREE}/${DATOMIC_VERSION} > datomic.zip
+    DATOMIC_BINARY=${DATOMIC_DOMAIN}/downloads/free/${DATOMIC_VERSION}
+    curl -L --silent ${DATOMIC_BINARY} > datomic.zip
     jar xf datomic.zip
-    mv datomic-free-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
-    echo "done"
+    mv datomic-free-* ${BUILD_DIR}/datomic
 else
-    echo -n "-----> Installing the Pro version of Datomic ${DATOMIC_VERSION}... "
-
-    [ -z "${DATOMIC_LICENSE_USER}" ] || [ -z "${DATOMIC_LICENSE_PASSWORD}" ] && {
-        echo "DATOMIC_LICENSE_USER or DATOMIC_LICENSE_PASSWORD is not set - aborting"
+    [ -z "${DATOMIC_LICENSE_USER}" ] || [ -z "${DATOMIC_LICENSE_PASSWORD}" ] || [ -z "${DATOMIC_TRANSACTOR_KEY}" ] && {
+        echo "DATOMIC_LICENSE_USER DATOMIC_LICENSE_PASSWORD DATOMIC_TRANSACTOR_KEY must be set - aborting"
         exit 1
     }
 
-    curl -L --silent -u ${DATOMIC_LICENSE_USER}:${DATOMIC_LICENSE_PASSWORD} ${DATOMIC_REPO_PRO}/${DATOMIC_VERSION}/datomic-pro-${DATOMIC_VERSION}.zip > datomic.zip
+    DATOMIC_BINARY=${DATOMIC_DOMAIN}/repo/com/datomic/datomic-pro/${DATOMIC_VERSION}/datomic-pro-${DATOMIC_VERSION}.zip
+    curl -L --silent -u ${DATOMIC_LICENSE_USER}:${DATOMIC_LICENSE_PASSWORD} ${DATOMIC_BINARY} > datomic.zip
     jar xf datomic.zip
-    mv datomic-pro-${DATOMIC_VERSION} ${BUILD_DIR}/datomic
-    echo "done"
+    mv datomic-pro-* ${BUILD_DIR}/datomic
 
-    [ -z "${DATOMIC_TRANSACTOR_KEY}" ] && {
-        echo "DATOMIC_TRANSACTOR_KEY is not set - aborting"
-        exit 1
-    }
-    echo -n "-----> Configuring Datomic to connect to Postgres... "
-    STORAGE_SERVICE=sql-transactor
+    # Configure storage
+    . ${BP_DIR}/lib/datomic-storage-config.sh
 
-    SAMPLE_PROPERTIES_FILE=${BUILD_DIR}/datomic/config/samples/${STORAGE_SERVICE}-template.properties
-    OUTPUT_PROPERTIES_FILE=${SCRIPTS_TARGET_DIR}/transactor.properties
-
-    SQL_URL=`echo ${DATABASE_URL} | sed 's?.*@\(.*\)?jdbc:postgresql://\1?'`
-    SQL_USER=`echo ${DATABASE_URL} | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?\(.*\):.*?\1?'`
-    SQL_PASSWORD=`echo ${DATABASE_URL} | sed -e 's?postgres://\(.*\):.*?\1?' -e 's?.*:\(.*\)@.*?\1?'`
-
-    sed     -e "s?^license-key=.*?license-key=${DATOMIC_TRANSACTOR_KEY}?"   \
-            -e "s|^sql-url=.*|sql-url=${SQL_URL}|"                          \
-            -e "s|^sql-user=.*|sql-user=${SQL_USER}|"                       \
-            -e "s|^sql-password=.*|sql-password=${SQL_PASSWORD}|"           \
-            -e 's/.*\(sql-driver-params=\).*/\1ssl=true;sslfactory=org.postgresql.ssl.NonValidatingFactory/' \
-    ${SAMPLE_PROPERTIES_FILE} > ${OUTPUT_PROPERTIES_FILE}
-
-    echo "done"
+    configure_storage
 fi
 
 cp ${BP_DIR}/vendor/datomic/* ${SCRIPTS_TARGET_DIR}
@@ -103,3 +88,5 @@ echo 'export PATH="/app/.jdk/bin:$PATH"' >> ${PROFILE_PATH}
 echo 'export PATH="/app/datomic/bin:$PATH"' >> ${PROFILE_PATH}
 echo 'export PATH="/app/scripts:$PATH"' >> ${PROFILE_PATH}
 echo 'export JAVA_TOOL_OPTIONS="$JAVA_TOOL_OPTIONS -Djava.rmi.server.useCodebaseOnly=true"' >> ${PROFILE_PATH}
+
+echo "done"

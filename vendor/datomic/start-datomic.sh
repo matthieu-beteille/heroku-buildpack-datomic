@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: Generalise this for more storage options
+
 if [ -z "${SCRIPTS_HOME}" ]
 then
     SCRIPTS_HOME=/app/scripts
