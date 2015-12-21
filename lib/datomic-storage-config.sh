@@ -28,16 +28,14 @@ configure_ddb() {
 
     echo -n "-----> Configuring Datomic to connect to DynamoDB... "
 
-set -x
-
     SAMPLE_PROPERTIES_FILE=${BUILD_DIR}/datomic/config/samples/ddb-transactor-template.properties
     COPY_NAME=${PWD}/ddb-transactor-template-COPY.properties
     PATCHED_FILE_NAME=${PWD}/ddb-transactor-template-PATCHED.properties
 
-echo before copy pwd says
-pwd
-
     cp ${SAMPLE_PROPERTIES_FILE} ${COPY_NAME}
+
+    #TODO - put this chmod somewhere smarter
+    chmod -R +x ${BUILD_DIR}/datomic/bin
 
     ${BUILD_DIR}/datomic/bin/datomic ensure-transactor ${COPY_NAME} ${OUTPUT_PROPERTIES_FILE} ${PATCHED_FILE_NAME}
 
