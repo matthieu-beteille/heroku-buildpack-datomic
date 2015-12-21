@@ -41,6 +41,10 @@ configure_ddb() {
 
     cat ${PATCHED_FILE_NAME} | license_filter > ${OUTPUT_PROPERTIES_FILE}
 
+    echo '------->>>>>>>>>>>'
+    cat ${OUTPUT_PROPERTIES_FILE}
+    echo '<<<<<<<<<<<-------'
+
     echo "done"
 }
 
