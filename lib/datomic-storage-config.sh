@@ -41,10 +41,6 @@ configure_ddb() {
 
     cat ${PATCHED_FILE_NAME} | license_filter > ${OUTPUT_PROPERTIES_FILE}
 
-    echo '------->>>>>>>>>>>'
-    cat ${OUTPUT_PROPERTIES_FILE}
-    echo '<<<<<<<<<<<-------'
-
     echo "done"
 }
 
@@ -97,5 +93,5 @@ heroku_postgres_filter() {
 
 
 license_filter() {
-    sed "s|^license-key=.*|license-key=${TRANSACTOR_LICENSE_KEY}|"
+    sed "s|^license-key=.*|license-key=${DATOMIC_TRANSACTOR_KEY}|"
 }
