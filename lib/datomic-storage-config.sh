@@ -37,6 +37,8 @@ configure_ddb() {
     #TODO - put this chmod somewhere smarter
     chmod -R +x ${BUILD_DIR}/datomic/bin
 
+    set -x
+
     ${BUILD_DIR}/datomic/bin/datomic ensure-transactor ${COPY_NAME} ${OUTPUT_PROPERTIES_FILE} ${PATCHED_FILE_NAME}
 
     cat ${PATCHED_FILE_NAME} | license_filter > ${OUTPUT_PROPERTIES_FILE}
