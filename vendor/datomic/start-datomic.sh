@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ -z "${SCRIPTS_HOME}" ]
+then
+    SCRIPTS_HOME=/app/scripts
+fi
+
 STORAGE_TYPE=${DATOMIC_STORAGE_TYPE:-"HEROKU_POSTGRES"}
 
 case ${STORAGE_TYPE} in
@@ -20,11 +25,6 @@ case ${STORAGE_TYPE} in
     *)  echo "Unsupported storage type '${STORAGE_TYPE}'" && return 1
         ;;
 esac
-
-if [ -z "${SCRIPTS_HOME}" ]
-then
-    SCRIPTS_HOME=/app/scripts
-fi
 
 PROPERTIES=${SCRIPTS_HOME}/transactor.properties
 
